@@ -5,7 +5,8 @@ const { parse } = require('url')
 
 const env = require('./config/env')
 
-const app = next()
+const dev = process.env.NODE_ENV !== 'production'
+const app = next({ dev })
 const handle = app.getRequestHandler()
 const staticRoutes = []
 const { APP_PORT, PUBLIC_URL, NOW_URL } = env.raw
@@ -24,5 +25,5 @@ app.prepare()
         handle(req, res, parsedUrl)
       }
     })
-      .listen(APP_PORT, () => console.log(`> Ready on ${NOW_URL || PUBLIC_URL}`))
+      .listen(APP_PORT, () => console.log(`> Ready on: ${NOW_URL || PUBLIC_URL}`))
   })

@@ -8,11 +8,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "run-p serve opn",
-    "serve": "pm2 start ecosystem.config.js --only todo-concore-dev",
+    "dev": "run-p serve-dev opn",
+    "serve": "pm2 start config/ecosystem.config.js",
+    "serve-dev": "pm2-dev start config/ecosystem.config.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "opn": "opn http://todo-concore.lvh.me:4001 -- 'google-chrome' --user-data-dir=.tmp-chrome --remote-debugging-port=9223"
+    "opn": "opn http://todo-concore.lvh.me:4001 -- 'google-chrome' --user-data-dir=.tmp-chrome --remote-debugging-port=9213"
   },
   "engines": {
     "node": ">=9.2.0"
@@ -33,13 +34,13 @@
     "@material-ui/icons": "^1.1.0",
     "@zeit/next-css": "^0.2.0",
     "@zeit/next-sass": "^0.2.0",
+    "chalk": "^2.4.1",
     "classnames": "^2.2.5",
     "csso": "^3.5.0",
     "dotenv": "^5.0.1",
     "file-loader": "^1.1.11",
     "ignore-loader": "^0.1.2",
     "next": "^6.0.3",
-    "next-offline": "^2.7.1",
     "next-redux-wrapper": "^2.0.0-beta.6",
     "node-sass": "^4.9.0",
     "postcss-css-variables": "^0.8.1",
@@ -51,7 +52,7 @@
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "url-loader": "^1.0.1",
-    "webpack": "^4.9.1"
+    "webpack": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.49",

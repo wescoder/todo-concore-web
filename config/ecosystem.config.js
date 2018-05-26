@@ -3,18 +3,18 @@ module.exports = {
   apps: [
     {
       name: 'todo-concore-web-dev',
-      script: './node_modules/next/dist/bin/next',
+      script: './server.js',
       env: {
         NODE_ENV: 'development'
       },
       node_args: [
-        '--inspect=9230'
+        '--inspect=9213'
       ],
       watch: [
-        './ecosystem.config.js',
-        '../config',
-        '../next.config.js',
-        '../server.js'
+        './config/*.js',
+        './config',
+        './next.config.js',
+        './server.js'
       ]
     }
   ]

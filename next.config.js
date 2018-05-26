@@ -1,7 +1,6 @@
 const withCss = require('@zeit/next-css')
 const withSass = require('@zeit/next-sass')
 const { DefinePlugin } = require('webpack')
-const { resolve } = require('path')
 const paths = require('./config/paths')
 const { raw: ENV } = require('./config/env')
 
@@ -12,7 +11,7 @@ let config = {
   publicRuntimeConfig: {
     ...ENV
   },
-  webpack (config, { dev, buildId/* , isServer, defaultLoaders */ }) {
+  webpack (config, { dev/* , buildId, isServer, defaultLoaders */ }) {
     config.module.rules.push({
       test: /\.(jpe?g|png|svg|gif)$/,
       use: {
