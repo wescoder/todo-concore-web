@@ -1,0 +1,7 @@
+_templates
+.next
+.vscode
+build
+node_modules
+static
+.eslintrc.js
