@@ -45,9 +45,7 @@ function getClientEnvironment (publicUrl) {
     APP_PORT,
     API_URL,
     APP_ID,
-    APP_KEY,
-    CONCORE_ADMIN_USER,
-    CONCORE_ADMIN_PASSWORD
+    APP_KEY
   } = process.env
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))
@@ -68,9 +66,7 @@ function getClientEnvironment (publicUrl) {
         APP_PORT,
         API_URL,
         APP_ID,
-        APP_KEY,
-        CONCORE_ADMIN_USER,
-        CONCORE_ADMIN_PASSWORD
+        APP_KEY
       }
     )
   // Stringify all values so we can feed into Webpack DefinePlugin
