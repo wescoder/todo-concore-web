@@ -1,10 +1,12 @@
-import MenuBar from '@components/menuBar'
-import { minify } from 'csso'
-import { MuiThemeProvider, createGenerateClassName, createMuiTheme } from '@material-ui/core/styles'
 import Head from 'next/head'
-import PropTypes from 'prop-types'
 import JssProvider from 'react-jss/lib/JssProvider'
+import PropTypes from 'prop-types'
 import { SheetsRegistry } from 'react-jss/lib/jss'
+import { minify } from 'csso'
+
+import { MuiThemeProvider, createGenerateClassName, createMuiTheme } from '@material-ui/core/styles'
+
+import MenuBar from '@components/menuBar'
 import s from './layout.scss'
 import resetCss from './reset.css'
 
@@ -16,7 +18,6 @@ const theme = createMuiTheme({
     type: 'light',
     primary: { light: '#4f5a42', main: '#283618', dark: '#212d14' },
     secondary: { light: '#9a2e57', main: '#840032', dark: '#6d0029' },
-    action: { light: '#fe7c2e', main: '#fe5f00', dark: '#d04e00' },
     error: { light: '#eb465a', main: '#e71d36', dark: '#be182d' },
     contrastThreshold: 3,
     tonalOffset: 0.2

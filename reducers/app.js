@@ -1,10 +1,6 @@
-// const prefix = '@todo-concore/'
-
-const actions = {
-}
+// const pre = '@todo-concore/'
 
 export const appActions = {
-  ...actions
 }
 
 export const defaultState = {

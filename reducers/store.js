@@ -1,9 +1,13 @@
 import { combineReducers, createStore } from 'redux'
 
 import app from './app'
+import auth from './auth'
+import todo from './todo'
 
 export const rootReducer = {
-  app
+  app,
+  auth,
+  todo
 }
 
 export const makeStore = initialState => createStore(
