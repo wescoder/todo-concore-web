@@ -3,22 +3,17 @@ import Auth from 'concore-sdk-js/lib/browser/Datacore/Auth'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { compareAsc } from 'date-fns'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import List from '@material-ui/core/List'
-import { withStyles } from '@material-ui/core/styles'
 
 import TaskItem from '@components/taskItem'
 import { todoActions } from '@reducers/todo'
 
-const styles = (/* theme */) => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center'
-  }
-})
+import styles from './todoList.scss'
 
 export class TodoList extends Component {
   componentDidMount () {
@@ -41,18 +36,18 @@ export class TodoList extends Component {
     })),
     isFetching: PropTypes.bool,
     fetchError: PropTypes.any,
-    fetchTodos: PropTypes.func.isRequired,
-    classes: PropTypes.any.isRequired
+    fetchTodos: PropTypes.func.isRequired
   }
 
   render () {
-    const { isFetching, fetchError, todos, classes } = this.props
+    const { isFetching, fetchError, todos } = this.props
     return (
-      <Card className={classes.root}>
+      <Card className={styles.root}>
         {isFetching && <CircularProgress />}
         {todos && Boolean(Object.values(todos).length)
-          && <List>
+          && <List className={styles.list}>
             {Object.values(todos)
+              .sort((a, b) => compareAsc(a.dueDate, b.dueDate))
               .map(task => <TaskItem key={task.id} task={task} />)
             }
           </List>
@@ -88,4 +83,4 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(TodoList))
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)

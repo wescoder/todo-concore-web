@@ -8,20 +8,9 @@ import { authActions } from '@reducers/auth'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
-import { withStyles } from '@material-ui/core/styles'
 
-const styles = theme => ({
-  container: theme.mixins.gutters({
-    paddingTop: 16,
-    paddingBottom: 16,
-    margin: theme.spacing.unit * 3
-  }),
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  }
-})
+import styles from './login.scss'
+
 export class Login extends Component {
   constructor (props) {
     super(props)
@@ -38,8 +27,7 @@ export class Login extends Component {
   static propTypes = {
     loggingIn: PropTypes.bool,
     login: PropTypes.func.isRequired,
-    restoreSession: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
+    restoreSession: PropTypes.func.isRequired
   }
 
   async componentDidMount () {
@@ -52,17 +40,17 @@ export class Login extends Component {
   }
 
   render () {
-    const { login, classes, loggingIn } = this.props
+    const { login, loggingIn } = this.props
     const { email, password } = this.state
     return (
       <ValidatorForm onSubmit={() => login(email, password)}>
-        <Paper className={classes.container} elevation={4}>
+        <Paper className={styles.container} elevation={4}>
           <TextValidator
             id='login_email'
             name='login_email'
             label='E-mail'
             type='email'
-            className={classes.textField}
+            className={styles.textField}
             margin='normal'
             value={email}
             validators={['required', 'isEmail']}
@@ -74,7 +62,7 @@ export class Login extends Component {
             name='login_password'
             label='Password'
             type='password'
-            className={classes.textField}
+            className={styles.textField}
             margin='normal'
             value={password}
             validators={['required', 'minStringLength:6', 'maxStringLength:30']}
@@ -86,6 +74,7 @@ export class Login extends Component {
             color='secondary'
             type='submit'
             disabled={loggingIn}
+            className={styles.submit}
           >Login</Button>
         </Paper>
       </ValidatorForm>
@@ -100,17 +89,33 @@ const mapDispatchToProps = dispatch => ({
     dispatch(authActions.login())
     const user = await Auth.login(email, password)
       .catch(err => dispatch(authActions.loginFailed(err)))
-    dispatch(authActions.loginSuccess(user))
+    const { ACL, id, createdAt, updatedAt, sessionToken } = user
+    dispatch(authActions.loginSuccess({
+      ACL,
+      id,
+      createdAt,
+      updatedAt,
+      sessionToken,
+      ...user.get()
+    }))
     if (process.browser && user) {
       Router.push('/')
     }
   },
   restoreSession: user => {
-    dispatch(authActions.loginSuccess(user))
+    const { ACL, id, createdAt, updatedAt, sessionToken } = user
+    dispatch(authActions.loginSuccess({
+      ACL,
+      id,
+      createdAt,
+      updatedAt,
+      sessionToken,
+      ...user.get()
+    }))
     if (process.browser && user) {
       Router.push('/')
     }
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login))
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

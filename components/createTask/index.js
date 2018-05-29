@@ -74,7 +74,6 @@ const mapDispatchToProps = dispatch => ({
       duedate: new Date('2020', '02', '29')
     })
     task.set('owner', user.id)
-    console.log(task)
     await task.save()
     dispatch(todoActions.createTask({
       id: task.id,

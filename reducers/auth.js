@@ -1,9 +1,9 @@
 const pre = '@todo-concore/auth'
 
-const LOGIN = `${pre}/LOGIN`
-const LOGOUT = `${pre}/LOGOUT`
-const LOGIN_SUCCESS = `${pre}/LOGIN_SUCCESS`
-const LOGIN_FAILED = `${pre}/LOGIN_FAILED`
+export const LOGIN = `${pre}/LOGIN`
+export const LOGOUT = `${pre}/LOGOUT`
+export const LOGIN_SUCCESS = `${pre}/LOGIN_SUCCESS`
+export const LOGIN_FAILED = `${pre}/LOGIN_FAILED`
 
 export const authActions = {
   login: () => ({
@@ -38,7 +38,7 @@ export const authReducer = (state = defaultState, action) => {
       }
     }
     case LOGOUT: {
-      return { ...state }
+      return defaultState
     }
     case LOGIN_SUCCESS: {
       const { user } = action

@@ -17,7 +17,7 @@ export const MenuBar = ({
   logout
 }) => (
   <AppBar position='sticky' color='primary'>
-    <Toolbar title={title} className={s.toolbar}>
+    <Toolbar className={s.toolbar}>
       <Typography style={{ flex: 1 }} title={title} variant='title' color='inherit'>
         <span id='toolbarTitle' className={s.toolbarTitle}>{title}</span>
       </Typography>

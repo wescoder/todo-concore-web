@@ -1,12 +1,14 @@
 const pre = '@todo-concore/todo'
 
-const FETCH_TODOS = `${pre}/FETCH_TODOS`
-const RECEIVE_TODOS = `${pre}/RECEIVE_TODOS`
-const FETCH_FAILED = `${pre}/FETCH_FAILED`
-const TOGGLE_CREATE_DIALOG = `${pre}/TOGGLE_CREATE_DIALOG`
-const CREATE_TASK = `${pre}/CREATE_TASK`
-const EDIT_TASK = `${pre}/EDIT_TASK`
-const EDIT_ERROR = `${pre}/EDIT_ERROR`
+import { LOGOUT } from './auth'
+
+export const FETCH_TODOS = `${pre}/FETCH_TODOS`
+export const RECEIVE_TODOS = `${pre}/RECEIVE_TODOS`
+export const FETCH_FAILED = `${pre}/FETCH_FAILED`
+export const TOGGLE_CREATE_DIALOG = `${pre}/TOGGLE_CREATE_DIALOG`
+export const CREATE_TASK = `${pre}/CREATE_TASK`
+export const EDIT_TASK = `${pre}/EDIT_TASK`
+export const EDIT_ERROR = `${pre}/EDIT_ERROR`
 
 export const todoActions = {
   fetch: () => ({
@@ -43,6 +45,7 @@ export const defaultState = {
   todos: null,
   isFetching: false,
   fetchError: null,
+  toggleError: null,
   showCreateDialog: false
 }
 
@@ -106,6 +109,9 @@ export const todoReducer = (state = defaultState, action) => {
         ...state,
         toggleError: error
       }
+    }
+    case LOGOUT: {
+      return defaultState
     }
     default: {
       return { ...state }
