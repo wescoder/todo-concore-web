@@ -31,6 +31,7 @@ module.exports = {
     }],
     quotes: ['error', 'single'],
     'react/jsx-no-bind': ['warn', { allowArrowFunctions: true }],
+    'react/jsx-closing-bracket-location': 'off',
     'react/no-array-index-key': 'off',
     'react/react-in-jsx-scope': 'off',
     semi: ['error', 'never'],

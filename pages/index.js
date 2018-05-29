@@ -23,6 +23,7 @@ const styles = theme => ({
 export const Home = ({ user, classes, toggleCreateDialog }) => {
   if (process.browser && !user) {
     Router.push('/login')
+    return null
   }
   return (
     <Layout pageTitle='Tasks'>
