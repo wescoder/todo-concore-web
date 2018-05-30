@@ -53,7 +53,12 @@ export class CreateTask extends Component {
           <Button onClick={() => toggleCreateDialog(false)}>
             Cancel
           </Button>
-          <Button onClick={() => createTask(this.state.newTaskDescription)}>
+          <Button onClick={() => {
+            createTask(this.state.newTaskDescription)
+            this.setState({
+              newTaskDescription: ''
+            })
+          }}>
             Save
           </Button>
         </DialogActions>

@@ -109,6 +109,7 @@ export const todoReducer = (state = defaultState, action) => {
       const { task } = action
       return {
         ...state,
+        showCreateDialog: false,
         todos: {
           ...state.todos,
           [task.id]: task
