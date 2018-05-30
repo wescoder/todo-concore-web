@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { SheetsRegistry } from 'react-jss/lib/jss'
 import { minify } from 'csso'
 
+import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils'
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider'
 import { MuiThemeProvider, createGenerateClassName, createMuiTheme } from '@material-ui/core/styles'
 
 import MenuBar from '@components/menuBar'
@@ -29,15 +31,17 @@ const theme = createMuiTheme({
 const Layout = ({ pageTitle = '', children = null }) => (
   <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
     <MuiThemeProvider theme={theme}>
-      <Head>
-        <style id='jss-server-side'>{resetCss}{minify(sheetsRegistry.toString()).css}</style>
-      </Head>
-      <div id='__layoutRoot' className={s.layoutRoot}>
-        <MenuBar title={pageTitle} />
-        <div className={s.content}>
-          {children}
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Head>
+          <style id='jss-server-side'>{resetCss}{minify(sheetsRegistry.toString()).css}</style>
+        </Head>
+        <div id='__layoutRoot' className={s.layoutRoot}>
+          <MenuBar title={pageTitle} />
+          <div className={s.content}>
+            {children}
+          </div>
         </div>
-      </div>
+      </MuiPickersUtilsProvider>
     </MuiThemeProvider>
   </JssProvider>
 )

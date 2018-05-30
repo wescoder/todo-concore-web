@@ -10,6 +10,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import DateTimePicker from 'material-ui-pickers/DateTimePicker'
 
 import { todoActions } from '@reducers/todo'
 
@@ -17,7 +18,8 @@ export class CreateTask extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      newTaskDescription: ''
+      newTaskDescription: '',
+      newTaskDueDate: new Date()
     }
   }
 
@@ -48,15 +50,20 @@ export class CreateTask extends Component {
             autoFocus
             onChange={({ target: { value } }) => this.setState({ newTaskDescription: value })}
           />
+          <DateTimePicker
+            value={this.state.newTaskDueDate}
+            onChange={date => this.setState({ newTaskDueDate: date })}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => toggleCreateDialog(false)}>
             Cancel
           </Button>
           <Button onClick={() => {
-            createTask(this.state.newTaskDescription)
+            createTask(this.state.newTaskDescription, this.state.newTaskDueDate)
             this.setState({
-              newTaskDescription: ''
+              newTaskDescription: '',
+              newTaskDueDate: new Date()
             })
           }}>
             Save
@@ -71,12 +78,12 @@ const mapStateToProps = ({ todo }) => todo
 
 const mapDispatchToProps = dispatch => ({
   toggleCreateDialog: show => dispatch(todoActions.toggleCreateDialog(show)),
-  createTask: async description => {
+  createTask: async (description, duedate) => {
     const user = await Auth.getUser()
     const task = new Molecule('Todo', {
       description,
       done: false,
-      duedate: new Date('2020', '02', '29')
+      duedate
     })
     task.set('owner', user.id)
     await task.save()

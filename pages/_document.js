@@ -10,6 +10,7 @@ class AppDocument extends Document {
           <meta name='viewport' content='initial-scale=1.0, width=device-width' />
           <meta name='theme-color' content='#283618' />
           <link rel='stylesheet' href='/_next/static/style.css' />
+          <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons' />
         </Head>
         <body>
           <Main />
