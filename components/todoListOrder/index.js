@@ -12,14 +12,25 @@ import styles from './todoListOrder.scss'
 export class TodoListOrder extends Component {
   static propTypes = {
     orderOptions: PropTypes.any.isRequired,
-    toggleOrder: PropTypes.func.isRequired
+    toggleOrder: PropTypes.func.isRequired,
+    toggleViewDone: PropTypes.func.isRequired,
+    viewDone: PropTypes.bool.isRequired
   }
 
   render () {
-    const { orderOptions, toggleOrder } = this.props
+    const { orderOptions, toggleOrder, toggleViewDone, viewDone } = this.props
     return (
-      <CardHeader title='Order by:' subheader={
-        Object.keys(orderOptions)
+      <CardHeader title='Order by:' subheader={[
+        <Chip
+          key={0}
+          className={styles.chip}
+          label={[
+            'Only done items',
+            viewDone ? <CheckIcon key='2' className={styles.chipIcon} /> : null
+          ]}
+          onClick={() => toggleViewDone()}
+        />,
+        ...Object.keys(orderOptions)
           .map(k => {
             const o = orderOptions[k]
             return (
@@ -34,7 +45,7 @@ export class TodoListOrder extends Component {
               />
             )
           })
-      } />
+      ]} />
     )
   }
 }
@@ -42,6 +53,7 @@ export class TodoListOrder extends Component {
 const mapStateToProps = ({ todo }) => todo
 
 const mapDispatchToProps = dispatch => ({
+  toggleViewDone: () => dispatch(todoActions.toggleViewDone()),
   toggleOrder: sortBy => dispatch(todoActions.toggleOrder(sortBy))
 })
 

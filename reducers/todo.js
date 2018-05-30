@@ -10,6 +10,7 @@ export const CREATE_TASK = `${pre}/CREATE_TASK`
 export const EDIT_TASK = `${pre}/EDIT_TASK`
 export const EDIT_ERROR = `${pre}/EDIT_ERROR`
 export const TOGGLE_ORDER = `${pre}/TOGGLE_ORDER`
+export const TOGGLE_VIEW_DONE = `${pre}/TOGGLE_VIEW_DONE`
 
 export const todoActions = {
   fetch: () => ({
@@ -43,6 +44,10 @@ export const todoActions = {
   toggleOrder: sortBy => ({
     type: TOGGLE_ORDER,
     sortBy
+  }),
+  toggleViewDone: show => ({
+    type: TOGGLE_VIEW_DONE,
+    show
   })
 }
 
@@ -69,6 +74,7 @@ export const defaultState = {
       reverse: false
     }
   },
+  viewDone: false,
   sortBy: 'duedate'
 }
 
@@ -153,6 +159,13 @@ export const todoReducer = (state = defaultState, action) => {
           ...newOptions,
           [sortBy]: { ...opt, selected: true }
         }
+      }
+    }
+    case TOGGLE_VIEW_DONE: {
+      const { show } = action
+      return {
+        ...state,
+        viewDone: show ? show : !state.viewDone
       }
     }
     default: {

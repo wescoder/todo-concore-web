@@ -36,6 +36,7 @@ export class TodoList extends Component {
       description: PropTypes.string
     })),
     orderOptions: PropTypes.any.isRequired,
+    viewDone: PropTypes.bool.isRequired,
     sortBy: PropTypes.string.isRequired,
     isFetching: PropTypes.bool,
     fetchError: PropTypes.any,
@@ -59,7 +60,7 @@ export class TodoList extends Component {
   }
 
   render () {
-    const { isFetching, fetchError, todos, orderOptions, sortBy } = this.props
+    const { isFetching, fetchError, todos, orderOptions, viewDone, sortBy } = this.props
     return (
       <Card className={styles.root}>
         <TodoListOrder />
@@ -68,6 +69,7 @@ export class TodoList extends Component {
           {todos && Boolean(Object.values(todos).length)
             && <List className={styles.list}>
               {Object.values(todos)
+                .filter(t => viewDone ? t.done : true)
                 .sort((a, b) => this.sorter(sortBy, orderOptions[sortBy].reverse)(a[sortBy], b[sortBy]))
                 .map(task => <TaskItem key={task.id} task={task} />)
               }
