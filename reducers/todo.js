@@ -9,6 +9,7 @@ export const TOGGLE_CREATE_DIALOG = `${pre}/TOGGLE_CREATE_DIALOG`
 export const CREATE_TASK = `${pre}/CREATE_TASK`
 export const EDIT_TASK = `${pre}/EDIT_TASK`
 export const EDIT_ERROR = `${pre}/EDIT_ERROR`
+export const TOGGLE_ORDER = `${pre}/TOGGLE_ORDER`
 
 export const todoActions = {
   fetch: () => ({
@@ -38,6 +39,10 @@ export const todoActions = {
     type: EDIT_ERROR,
     taskId,
     error
+  }),
+  toggleOrder: sortBy => ({
+    type: TOGGLE_ORDER,
+    sortBy
   })
 }
 
@@ -46,7 +51,25 @@ export const defaultState = {
   isFetching: false,
   fetchError: null,
   toggleError: null,
-  showCreateDialog: false
+  showCreateDialog: false,
+  orderOptions: {
+    duedate: {
+      label: 'Due date',
+      selected: true,
+      reverse: true
+    },
+    donedate: {
+      label: 'Done date',
+      selected: false,
+      reverse: false
+    },
+    description: {
+      label: 'Description',
+      selected: false,
+      reverse: false
+    }
+  },
+  sortBy: 'duedate'
 }
 
 export const todoReducer = (state = defaultState, action) => {
@@ -112,6 +135,24 @@ export const todoReducer = (state = defaultState, action) => {
     }
     case LOGOUT: {
       return defaultState
+    }
+    case TOGGLE_ORDER: {
+      const { sortBy } = action
+      const opt = { ...state.orderOptions[sortBy] }
+      opt.reverse = opt.selected ? !opt.reverse : opt.reverse
+      const newOptions = { ...state.orderOptions }
+      Object.values(newOptions)
+        .forEach(o => {
+          o.selected = false
+        })
+      return {
+        ...state,
+        sortBy,
+        orderOptions: {
+          ...newOptions,
+          [sortBy]: { ...opt, selected: true }
+        }
+      }
     }
     default: {
       return { ...state }

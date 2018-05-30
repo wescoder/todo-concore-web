@@ -1,9 +1,9 @@
 .root {
-  display: flex;
-  justify-content: center;
+  display: block;
 }
 
 .list {
   display: block;
   width: 100%;
+  padding: 0 !important;
 }

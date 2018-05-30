@@ -3,7 +3,7 @@ import Auth from 'concore-sdk-js/lib/browser/Datacore/Auth'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { compareAsc } from 'date-fns'
+import { compareAsc, compareDesc } from 'date-fns'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import List from '@material-ui/core/List'
 
 import TaskItem from '@components/taskItem'
+import TodoListOrder from '@components/todoListOrder'
 import { todoActions } from '@reducers/todo'
 
 import styles from './todoList.scss'
@@ -34,26 +35,47 @@ export class TodoList extends Component {
       id: PropTypes.string,
       description: PropTypes.string
     })),
+    orderOptions: PropTypes.any.isRequired,
+    sortBy: PropTypes.string.isRequired,
     isFetching: PropTypes.bool,
     fetchError: PropTypes.any,
     fetchTodos: PropTypes.func.isRequired
   }
 
+  sorter = (sortBy, reverse) => {
+    switch (sortBy) {
+      case 'duedate':
+      case 'donedate': {
+        return reverse
+          ? (a, b) => compareAsc(new Date(a || 0), new Date(b || 0))
+          : (a, b) => compareDesc(new Date(a || 0), new Date(b || 0))
+      }
+      default: {
+        return reverse
+          ? (a, b) => a < b ? -1 : (a > b ? 1 : 0)
+          : (a, b) => a < b ? 1 : (a > b ? -1 : 0)
+      }
+    }
+  }
+
   render () {
-    const { isFetching, fetchError, todos } = this.props
+    const { isFetching, fetchError, todos, orderOptions, sortBy } = this.props
     return (
       <Card className={styles.root}>
-        {isFetching && <CircularProgress />}
-        {todos && Boolean(Object.values(todos).length)
-          && <List className={styles.list}>
-            {Object.values(todos)
-              .sort((a, b) => compareAsc(a.dueDate, b.dueDate))
-              .map(task => <TaskItem key={task.id} task={task} />)
-            }
-          </List>
-        }
-        {!isFetching && todos && !Object.values(todos).length && <CardContent>There&apos;s no todos. Go create one.</CardContent>}
-        {fetchError && <pre>{JSON.stringify(fetchError)}</pre>}
+        <TodoListOrder />
+        <CardContent>
+          {isFetching && <CircularProgress />}
+          {todos && Boolean(Object.values(todos).length)
+            && <List className={styles.list}>
+              {Object.values(todos)
+                .sort((a, b) => this.sorter(sortBy, orderOptions[sortBy].reverse)(a[sortBy], b[sortBy]))
+                .map(task => <TaskItem key={task.id} task={task} />)
+              }
+            </List>
+          }
+          {!isFetching && todos && !Object.values(todos).length && 'There\'s no todos. Go create one.'}
+          {fetchError && <pre>{JSON.stringify(fetchError)}</pre>}
+        </CardContent>
       </Card>
     )
   }
