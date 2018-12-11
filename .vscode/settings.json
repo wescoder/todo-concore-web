@@ -1,3 +1,5 @@
 {
-  "workbench.colorTheme": "Warlock Contrast (rainglow)"
+  "workbench.colorTheme": "Warlock Contrast (rainglow)",
+  "favorites.sortDirection": "ASC",
+  "favorites.groupsFirst": true
 }
